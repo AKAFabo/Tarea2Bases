@@ -16,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         array($username, SQLSRV_PARAM_IN),
         array($password, SQLSRV_PARAM_IN),
         array($userIP, SQLSRV_PARAM_IN),
-        array(&$codigoError, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_INT),
-        array(&$mensaje, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR))
+        array(&$codigoError, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
+        array(&$mensaje, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR(200))
     );
 
     $stmt = sqlsrv_query($conn, $sql, $params);
