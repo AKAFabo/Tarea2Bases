@@ -16,10 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         array($username, SQLSRV_PARAM_IN),
         array($password, SQLSRV_PARAM_IN),
         array($userIP, SQLSRV_PARAM_IN),
-        array(&$codigoError, SQLSRV_PARAM_OUT),
+        array(&$codigoError, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_INT),
         array(&$mensaje, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR))
     );
-    
+
     $stmt = sqlsrv_query($conn, $sql, $params);
     
     if ($stmt === false) {
