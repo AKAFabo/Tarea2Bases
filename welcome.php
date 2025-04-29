@@ -17,12 +17,12 @@ echo "Filter: " . $filtro . "<br>";
 echo "IP: " . $userIP . "<br>";
 echo "UserID: " . $userId . "<br><br>";
 
-// Corregir la llamada al SP - El problema está en que estás mezclando valores hardcodeados con parámetros
-$sql = "{CALL sp_FiltrarEmpleados (?, ?, ?)}";
+// Fix SP call with named parameters
+$sql = "{CALL sp_FiltrarEmpleados (@Filtro = ?, @IP = ?, @IdUsuario = ?)}";
 $params = array(
-    $filtro,    
-    $userIP,    
-    1           // Por ahora usamos 1 como ID de usuario fijo
+    array($filtro, SQLSRV_PARAM_IN),    
+    array($userIP, SQLSRV_PARAM_IN),    
+    array(1, SQLSRV_PARAM_IN)           
 );
 
 $stmt = sqlsrv_query($conn, $sql, $params);
