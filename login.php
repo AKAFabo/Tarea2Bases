@@ -6,20 +6,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = connectDB();
     $username = $_POST['username'];
     $password = $_POST['password'];
-
-    $sql = "{CALL sp_ValidarUsuario (?, ?)}";
-    $params = array($username, $password);
-    $stmt = sqlsrv_query($conn, $sql, $params);
-      
-    $params = array($username, $password);
+    
+    $sql = "{CALL sp_ValidarUsuario (@Username = ?, @Password = ?, @IP = ?)}";
+    $userIP = $_SERVER['REMOTE_ADDR'];
+    $params = array(
+        array($username, SQLSRV_PARAM_IN),
+        array($password, SQLSRV_PARAM_IN),
+        array($userIP, SQLSRV_PARAM_IN)
+    );
+    
     $stmt = sqlsrv_query($conn, $sql, $params);
     
     if ($stmt === false) {
         die(print_r(sqlsrv_errors(), true));
     }
     
-    if (sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+    if ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
         $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $row['Id']; // Store the user ID if returned by SP
         header("Location: welcome.php");
         exit();
     } else {
@@ -27,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     sqlsrv_close($conn);
-    hhhh
 }
 ?>
 
