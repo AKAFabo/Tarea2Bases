@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 require_once 'db_connection.php';
 
@@ -6,8 +6,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = connectDB();
     $username = $_POST['username'];
     $password = $_POST['password'];
-    
-    $sql = "SELECT * FROM Usuario WHERE Username = ? AND Password = ?";
+
+    $sql = "{CALL sp_ValidarUsuario (?, ?)}";
+    $params = array($username, $password);
+    $stmt = sqlsrv_query($conn, $sql, $params);
+      
     $params = array($username, $password);
     $stmt = sqlsrv_query($conn, $sql, $params);
     
@@ -24,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     sqlsrv_close($conn);
+    hhhh
 }
 ?>
 

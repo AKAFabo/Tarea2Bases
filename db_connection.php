@@ -1,6 +1,6 @@
 <?php
 function connectDB() {
-    $connectionInfo = array("Database" => "Tarea2Bases");
+    $connectionInfo = array("Database" => "Proyecto2BD");
     $conn = sqlsrv_connect("", $connectionInfo);
 
     if (!$conn) {
